@@ -1,0 +1,554 @@
+/* Theme variables */
+:root {
+    --bg-page: #f8f8f8;
+    --bg-container: #fff;
+    --bg-sidebar: #fff;
+    --bg-messages: #fafafa;
+    --bg-input-area: #fff;
+    --bg-input-bubble: #fdfdfd;
+    --bg-chat-item: #f7f7f7;
+    --bg-chat-item-hover: #eee;
+    --bg-chat-item-active: #ddd;
+    --bg-bubble: #fff;
+    --bg-avatar: #ddd;
+    --bg-config: #eee;
+    --bg-config-hover: #ddd;
+    --text-primary: #333;
+    --text-heading: #555;
+    --text-link: #3b0b85;
+    --border-subtle: #eee;
+    --border-default: #ddd;
+    --border-input: #ccc;
+    --shadow-bubble: rgba(0, 0, 0, 0.1);
+    --btn-new-chat: #f57c7c;
+    --btn-new-chat-hover: #ff5252;
+    --btn-send: #00bfff;
+    --btn-send-hover: #24d0ff;
+    --btn-delete-hover: #f57c7c;
+    --caret-color: #00bfff;
+    --fake-caret-color: #000;
+    --theme-toggle-bg: #fff;
+    --theme-toggle-border: #ddd;
+    --theme-toggle-shadow: rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="dark"] {
+    --bg-page: #121212;
+    --bg-container: #1e1e1e;
+    --bg-sidebar: #1a1a1a;
+    --bg-messages: #161616;
+    --bg-input-area: #1e1e1e;
+    --bg-input-bubble: #252525;
+    --bg-chat-item: #2a2a2a;
+    --bg-chat-item-hover: #333;
+    --bg-chat-item-active: #3d3d3d;
+    --bg-bubble: #2d2d2d;
+    --bg-avatar: #444;
+    --bg-config: #2a2a2a;
+    --bg-config-hover: #333;
+    --text-primary: #e8e8e8;
+    --text-heading: #ccc;
+    --text-link: #b39ddb;
+    --border-subtle: #333;
+    --border-default: #444;
+    --border-input: #555;
+    --shadow-bubble: rgba(0, 0, 0, 0.35);
+    --btn-new-chat: #c62828;
+    --btn-new-chat-hover: #e53935;
+    --btn-send: #0288d1;
+    --btn-send-hover: #039be5;
+    --btn-delete-hover: #ef5350;
+    --caret-color: #4fc3f7;
+    --fake-caret-color: #fff;
+    --theme-toggle-bg: #2a2a2a;
+    --theme-toggle-border: #555;
+    --theme-toggle-shadow: rgba(0, 0, 0, 0.4);
+}
+
+/* Основные стили страницы */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body.comic-body {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background: var(--bg-page);
+    color: var(--text-primary);
+}
+
+/* Общая контейнерная область */
+.chat-container {
+    display: flex;
+    height: 100vh;
+    background: var(--bg-container);
+    overflow: hidden;
+}
+
+/* Sidebar (боковая панель) */
+.sidebar {
+    width: 280px;
+    padding: 20px;
+    border-right: 1px solid var(--border-subtle);
+    background: var(--bg-sidebar);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+/* Верхняя часть боковой панели: содержит заголовок, переключатели и список чатов */
+.sidebar-top {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* чтобы нижняя часть была отделена */
+}
+
+.sidebar-top h1 {
+    font-size: 1.6em;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--text-heading);
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid var(--border-subtle);
+}
+
+/* Элементы переключателей */
+.dropdown, .toggle-mode {
+    margin: 12px 0;
+    font-size: 0.95em;
+}
+
+/* Обёртка для списка чатов — именно эта область прокручивается */
+.chat-list-wrapper {
+    flex: 1;             /* занимает всё оставшееся пространство */
+    overflow-y: auto;    /* вертикальный скролл */
+    min-height: 0;       /* критично для flex-элементов */
+    margin-top: 10px;
+}
+
+/* Сам список чатов */
+.chat-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.chat-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text-primary);
+    text-decoration: none;
+    background: var(--bg-chat-item);
+    border: 1px solid var(--border-default);
+    border-radius: 14px;
+    padding: 10px;
+    font-weight: 600;
+    transition: background 0.15s;
+    cursor: pointer;
+}
+
+.chat-list li:hover {
+    color: var(--text-primary);
+    background: var(--bg-chat-item-hover);
+    text-decoration: none;
+}
+
+.chat-list li a:visited {
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.chat-list li.active {
+    background: var(--bg-chat-item-active);
+}
+
+.chat-list li a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    text-decoration: none;
+    color: var(--text-link);
+    font-weight: bold;
+}
+
+.chat-list .icons {
+    margin-left: 12px;
+    font-size: 1.1em;
+    display: flex;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.delete-chat-btn {
+    background: none;       /* нет фона */
+    border: none;           /* нет рамки */
+    color: var(--text-primary);
+    font-size: 1.2em;       /* размер крестика */
+    cursor: pointer;
+    transition: color 0.2s ease;
+    padding: 2px 4px;       /* небольшой отступ, чтобы было удобно нажимать */
+}
+
+.delete-chat-btn:hover {
+    color: var(--btn-delete-hover);
+}
+
+.delete-chat-btn:focus {
+    outline: none;          /* убираем обводку при фокусе (необязательно) */
+}
+
+/* Нижняя часть боковой панели: форма нового чата и ссылка на конфигурацию */
+.sidebar-bottom {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.new-chat-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.typed-field-wrap {
+    position: relative;
+    flex: 1;
+    display: flex;
+    min-width: 0;
+}
+
+.typed-field-wrap input,
+.typed-field-wrap textarea {
+    width: 100%;
+    caret-color: var(--caret-color);
+}
+
+.fake-caret {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: var(--fake-caret-color);
+    font-weight: 700;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    display: none;
+    animation: caret-blink 1s step-end infinite;
+}
+
+.typed-field-wrap:focus-within .fake-caret {
+    display: block;
+}
+
+.typed-field-wrap:focus-within input:not(:placeholder-shown) ~ .fake-caret,
+.typed-field-wrap:focus-within textarea:not(:placeholder-shown) ~ .fake-caret {
+    display: none;
+}
+
+.typed-field-wrap:focus-within input:placeholder-shown,
+.typed-field-wrap:focus-within textarea:placeholder-shown {
+    caret-color: transparent;
+}
+
+@keyframes caret-blink {
+    0%, 49% {
+        opacity: 1;
+    }
+    50%, 100% {
+        opacity: 0;
+    }
+}
+
+.new-chat-form .typed-field-wrap {
+    flex: none;
+}
+
+.new-chat-form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid var(--border-input);
+    border-radius: 12px;
+    font-family: inherit;
+    box-sizing: border-box;
+    background: var(--bg-input-bubble);
+    color: var(--text-primary);
+}
+
+.new-chat {
+    width: 100%;
+    padding: 14px;
+    font-size: 1.05em;
+    font-weight: bold;
+    background: var(--btn-new-chat);
+    color: #fff;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.new-chat:hover {
+    background: var(--btn-new-chat-hover);
+    transform: scale(1.02);
+}
+
+.config-link {
+    padding: 12px;
+    background: var(--bg-config);
+    color: var(--text-primary);
+    border: 1px solid var(--border-input);
+    border-radius: 14px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.15s, transform 0.1s;
+}
+
+.config-link:hover {
+    background: var(--bg-config-hover);
+    transform: scale(1.02);
+}
+
+/* Chat Main (основная область чата) */
+.chat-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: var(--bg-messages);
+}
+
+.message {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    max-width: 80%;
+}
+
+.message img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--bg-avatar);
+    object-fit: cover;
+}
+
+.bubble {
+    background: var(--bg-bubble);
+    border: 1px solid var(--border-default);
+    padding: 12px 16px;
+    border-radius: 16px;
+    font-size: 1em;
+    line-height: 1.4;
+    box-shadow: 0 1px 2px var(--shadow-bubble);
+    position: relative;
+}
+
+.bubble::after {
+    content: '';
+    position: absolute;
+    bottom: 12px;
+    left: -6px;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-right: 6px solid var(--bg-bubble);
+}
+
+.message.mentor .bubble::after {
+    left: auto;
+    right: -6px;
+    border-right: 0;
+    border-left: 6px solid var(--bg-bubble);
+}
+
+/* Input (форма ввода сообщений) */
+.sidebar-bottom .document-upload-area {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0;
+}
+
+.document-upload-area {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.sidebar-bottom .document-upload-area input[type="file"] {
+    width: 100%;
+}
+
+.document-upload-area input[type="file"] {
+    flex: 1;
+    min-width: 160px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+
+#document-upload-button {
+    background: var(--btn-send);
+    color: #fff;
+    border: none;
+    border-radius: 16px;
+    padding: 8px 14px;
+    cursor: pointer;
+    font-family: inherit;
+    width: 100%;
+}
+
+#document-upload-button:hover:not(:disabled) {
+    background: var(--btn-send-hover);
+}
+
+#document-upload-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.document-upload-status {
+    width: 100%;
+    font-size: 0.85rem;
+    color: var(--text-heading);
+}
+
+.input-area {
+    padding: 16px;
+    background: var(--bg-input-area);
+    border-top: 1px solid var(--border-subtle);
+}
+
+.input-bubble {
+    display: flex;
+    align-items: center;
+    background: var(--bg-input-bubble);
+    border: 1px solid var(--border-default);
+    border-radius: 20px;
+    padding: 8px;
+    gap: 8px;
+}
+
+.input-bubble .typed-field-wrap {
+    flex: 1;
+}
+
+.input-bubble textarea {
+    flex: 1;
+    font-family: inherit;
+    font-size: 1em;
+    border: none;
+    resize: none;
+    outline: none;
+    background: transparent;
+    padding: 6px 6px 6px 14px;
+    color: var(--text-primary);
+}
+
+.input-bubble button {
+    padding: 10px 14px;
+    background: var(--btn-send);
+    border: none;
+    color: #fff;
+    font-size: 1em;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+}
+
+.input-bubble button:hover {
+    background: var(--btn-send-hover);
+    transform: scale(1.02);
+}
+
+/* Theme toggle (bottom-left) */
+.theme-toggle {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    z-index: 1000;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: 1px solid var(--theme-toggle-border);
+    border-radius: 50%;
+    background: var(--theme-toggle-bg);
+    box-shadow: 0 2px 8px var(--theme-toggle-shadow);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    line-height: 1;
+    transition: transform 0.15s, background 0.15s;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.08);
+}
+
+.theme-toggle:focus {
+    outline: 2px solid var(--btn-send);
+    outline-offset: 2px;
+}
+
+.theme-toggle-icon {
+    position: absolute;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.theme-icon-sun {
+    opacity: 0;
+    transform: scale(0.6);
+}
+
+.theme-icon-moon {
+    opacity: 1;
+    transform: scale(1);
+}
+
+[data-theme="dark"] .theme-icon-sun {
+    opacity: 1;
+    transform: scale(1);
+}
+
+[data-theme="dark"] .theme-icon-moon {
+    opacity: 0;
+    transform: scale(0.6);
+}
+
+/* Utility */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}

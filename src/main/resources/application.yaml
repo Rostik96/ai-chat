@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: ai-chat
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  main:
+    allow-circular-references: true
+
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        model: gemma3:4b-it-q4_K_M
+      embedding:
+        options:
+          model: mxbai-embed-large
+    vectorstore:
+      pgvector:
+        initialize-schema: true
+        dimensions: 1024
+    chat:
+      memory:
+        repository:
+          jdbc:
+            initialize-schema: always
+  datasource:
+    url:
+    username:
+    password:
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+chat:
+  memory:
+    max-messages: ${CHAT_MEMORY_MAX_MESSAGES:20}
+
+rag:
+  user-documents:
+    retention: ${RAG_USER_DOCUMENTS_RETENTION:PT1H}
+    cleanup-interval: ${RAG_USER_DOCUMENTS_CLEANUP_INTERVAL:PT15M}

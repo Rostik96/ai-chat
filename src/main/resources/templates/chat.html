@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${chat != null} ? 'ez gpt — ' + chat.title : 'ez gpt'">ez gpt</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/chat.css}"/>
+    <script>
+        (function () {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script defer th:src="@{/js/chat.js}"></script>
+</head>
+<body class="comic-body">
+<div class="chat-container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-top">
+            <h1>ez gpt</h1>
+
+
+            <!-- Chat list -->
+            <div class="chat-list-wrapper">
+                <ul class="chat-list">
+                    <li th:each="c : ${chats}"
+                        th:classappend="${chat != null and chat.id != null and c.id == chat.id} ? 'active' : ''">
+                        <a th:href="@{/chat/{id}(id=${c.id})}">
+                            <span th:text="${c.title}">Чат</span>
+                        </a>
+                        <!-- Форма удаления чата -->
+                        <form th:action="@{/chat/{id}(id=${c.id})}" method="post"
+                              onsubmit="return confirm('Удалить чат?');">
+                            <input type="hidden" name="_method" value="delete"/>
+                            <button type="submit" class="delete-chat-btn">✕</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="sidebar-bottom">
+            <div class="document-upload-area">
+                <label for="document-upload" class="sr-only">Загрузить в базу знаний</label>
+                <input type="file" id="document-upload" accept=".txt,.pdf,.doc,.docx"/>
+                <button type="button" id="document-upload-button">В базу знаний</button>
+                <span id="document-upload-status" class="document-upload-status" aria-live="polite"></span>
+            </div>
+            <form action="/chat/new" method="post" class="new-chat-form" id="new-chat-form">
+                <div class="typed-field-wrap">
+                    <input type="text" id="new-chat-title" name="title" placeholder="Название нового чата" required/>
+                    <span class="fake-caret" aria-hidden="true">|</span>
+                </div>
+                <button type="submit" class="new-chat">💥 BOOM! Новый чат</button>
+            </form>
+        </div>
+    </aside>
+
+    <!-- Chat main section -->
+    <main class="chat-main" th:attr="data-chat-id=${chat != null} ? ${chat.id} : null">
+
+        <div class="messages" id="messages">
+            <th:block th:if="${chat != null}">
+                <div th:if="${!#lists.isEmpty(chat.entries)}" th:each="entry : ${chat.entries}"
+                     th:class="${entry.role eq 'user'} ? 'message user' : 'message mentor'"><img
+                        th:src="${entry.role eq 'user'} ? '/images/user.png' : '/images/mentor.png'" alt="avatar">
+                    <div class="bubble" th:text="${entry.content}"></div>
+                </div>
+            </th:block>
+        </div>
+
+        <div th:if="${chat != null}">
+            <div class="input-area">
+                <div class="input-bubble">
+                    <label for="chat-input" class="sr-only">Спрашивай</label>
+                    <div class="typed-field-wrap">
+                        <textarea id="chat-input" placeholder="Спрашивай..."></textarea>
+                        <span class="fake-caret" aria-hidden="true">|</span>
+                    </div>
+                    <button type="button" id="send-button">SEND</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<button type="button" id="theme-toggle" class="theme-toggle" aria-label="Переключить тему" title="Переключить тему">
+    <span class="theme-toggle-icon theme-icon-sun" aria-hidden="true">☀️</span>
+    <span class="theme-toggle-icon theme-icon-moon" aria-hidden="true">🌙</span>
+</button>
+</body>
+</html>

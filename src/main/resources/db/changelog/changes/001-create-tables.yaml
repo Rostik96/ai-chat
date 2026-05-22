@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-tables
+      author: rost
+      runInTransaction: false
+      changes:
+        - sqlFile:
+            path: ../sql/01-create-tables.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: false

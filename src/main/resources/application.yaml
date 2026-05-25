@@ -16,7 +16,14 @@ spring:
     ollama:
       base-url: http://localhost:11434
       chat:
-        model: gemma3:4b-it-q4_K_M
+        model: ${SPRING_AI_OLLAMA_CHAT_MODEL:gemma3:4b-it-q4_K_M}
+        temperature: ${SPRING_AI_OLLAMA_CHAT_TEMPERATURE:0.8}
+        top-k: ${SPRING_AI_OLLAMA_CHAT_TOP_K:40}
+        top-p: ${SPRING_AI_OLLAMA_CHAT_TOP_P:0.9}
+        repeat-penalty: ${SPRING_AI_OLLAMA_CHAT_REPEAT_PENALTY:1.1}
+        keep-alive: ${SPRING_AI_OLLAMA_CHAT_KEEP_ALIVE:5m}
+        num-predict: ${SPRING_AI_OLLAMA_CHAT_NUM_PREDICT:2048}
+        num-ctx: ${SPRING_AI_OLLAMA_CHAT_NUM_CTX:8192}
       embedding:
         options:
           model: mxbai-embed-large

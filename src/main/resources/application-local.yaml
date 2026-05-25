@@ -14,4 +14,8 @@ spring:
 
 chat:
   memory:
-    max-messages: 10
+    max-messages: 15
+
+logging:
+  level:
+    org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor: DEBUG

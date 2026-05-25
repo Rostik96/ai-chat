@@ -47,6 +47,9 @@ chat:
     max-messages: ${CHAT_MEMORY_MAX_MESSAGES:20}
 
 rag:
+  search:
+    similarity-threshold: ${RAG_SEARCH_SIMILARITY_THRESHOLD:0.75}
+    top-k: ${RAG_SEARCH_TOP_K:4}
   user-documents:
     retention: ${RAG_USER_DOCUMENTS_RETENTION:PT1H}
     cleanup-interval: ${RAG_USER_DOCUMENTS_CLEANUP_INTERVAL:PT15M}
